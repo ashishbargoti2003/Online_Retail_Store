@@ -1,5 +1,5 @@
 import streamlit as st
-import mysql.connector as ms
+import pymysql as ms
 from streamlit import session_state
 import time
 import pandas as pd
@@ -9,7 +9,7 @@ import numpy as np
 from streamlit_lottie import st_lottie 
 
 def launch_connection():
-    db = ms.connect(host='localhost',user='root',passwd='_dontTry@0809',database='croma_online')
+    db = ms.connect(host='localhost',user='root',passwd='2003',database='croma_online')
     return db
 
 def display_header():
