@@ -46,3 +46,4 @@ def registration_menu_with_redirect():
     if "login_key" not in st.session_state or st.session_state.role is None:
         st.switch_page("pages/customer_registration.py")
     registration_menu()
+

@@ -94,7 +94,7 @@ CREATE TABLE inventory (
 );
 
 CREATE TABLE orders (
-  Order_ID INT PRIMARY KEY,
+  Order_ID INT PRIMARY KEY AUTO_INCREMENT,
   Customer_ID INT NOT NULL,
   Order_Placement_Date DATE,
   Discount DECIMAL(10,2) NOT NULL,
@@ -279,7 +279,7 @@ INSERT INTO products (Name, Category1, Category2, Category3, Brand_Name, Price, 
 ('Boat Airdopes 131', 'Electronics', 'Headphones', 'TWS Earbuds', 'Boat', 1299.00, 'Wireless bluetooth earbuds');
 
 INSERT INTO cart (Customer_ID, Product_ID, Quantity, Total_Price, Added_Date) VALUES
-(1, 1, 10, 899000.00, '2023-02-10'),  
+(1, 1, 100, 8990000.00, '2023-02-10'),  
 (3, 3, 2, 6998.00, '2023-02-11'),
 (5, 7, 1, 109999.00, '2023-02-09'),
 (2, 2, 1, 54999.00, '2023-02-12'),  
@@ -329,7 +329,7 @@ INSERT INTO suppliers (Name, Email_ID, Contact_No, Description, Contract_Start_D
                 
 INSERT INTO inventory (Product_ID, Warehouse_ID, Quantity, Last_Supply_Date, Supplier_ID) VALUES  
 (1, 1, 4, '2023-02-10', 1),  
-(1, 3, 4, '2023-02-10', 1),  
+(1, 3, 10, '2023-02-10', 1),  
 (2, 2, 50, '2023-02-12', 2),
 (3, 3, 300, '2023-02-11', 3),
 (4, 4, 10, '2023-02-09', 4), 
@@ -389,8 +389,13 @@ INSERT INTO wishlist (Customer_ID, Product_ID, Added_Date) VALUES
 (3, 7, '2023-02-14'), 
 (7, 3, '2023-02-16'),
 (4, 6, '2023-02-19'),
+(1, 5, '2023-06-19'),
+(1, 4, '2023-05-19'),
+(1, 3, '2023-04-19'),
+(1, 2, '2023-03-19'),
 (8, 2, '2023-02-21'),
 (6, 8, '2023-02-23');
+
 
 INSERT INTO transactions (Transaction_ID, Order_ID, Payment_Mode, Payment_Status, Transaction_Date) VALUES  
 (101, 1001, 'Credit Card', 'Complete', '2023-02-15'),

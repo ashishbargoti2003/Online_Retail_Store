@@ -1,11 +1,39 @@
 
-from utility import st, launch_connection, pd, sns, np, plt
+from utility import st, launch_connection, pd, sns, np, plt,ms
 
 from menu import menu_with_redirect
 
 # from Home import launch_connection;
 db = launch_connection()
 cur=db.cursor()
+
+def place_shipment_orders():
+    st.header("Place Shipment Orders")
+    cur.execute(f"Select W.Warehouse_ID, W.Name from Warehouses W")
+    temp = cur.fetchall()
+    warehouse_options = {}
+    for item in temp:
+        warehouse_options[item[1]] = item[0]
+    selected_option1 = st.selectbox("Select Warehouse to Restock:",warehouse_options.keys())
+    cur.execute(f"Select S.Supplier_ID, S.Name from Suppliers S")
+    res = cur.fetchall()
+    supplier_options = {}
+    for item in res:
+        supplier_options[item[1]] = item[0]
+    selected_option2 = st.selectbox("Select Supplier:",supplier_options.keys())
+    cur.execute(f"Select T.Product_ID, P.Name from Product_supplier T, Products P where T.Supplier_ID = ({supplier_options[selected_option2]}) AND P.Product_ID = T.Product_ID")
+    res2 = cur.fetchall()
+    product_options = {}
+    for item in res2:
+        product_options[item[1]] = item[0]
+    selected_option3 = st.selectbox("Select Product to be Ordered:",product_options.keys())
+    quantity = st.text_input("Quantity of Product to be ordered: ",key = str(warehouse_options[selected_option1])+str(supplier_options[selected_option2])+str(product_options[selected_option3]))
+    if(st.button("Place Order")):
+        cur.execute(f"Insert INTO Restock_details (Warehouse_ID,Supplier_ID, Product_ID, Quantity, Date_Of_Purchase) VALUES ({warehouse_options[selected_option1]},{supplier_options[selected_option2]},{product_options[selected_option3]},{quantity},CURDATE())") 
+        st.success("Order Placed Successfully!")
+        db.commit()
+        # Add more records into tables Purchase Order and Shipments and alter the table structure to have a forign key named "Restock_ID" in the table "Purchase_Order" to delete an extra table "Restock_per_po"
+
 
 def view_registered_accounts():
     st.subheader("View Registered Accounts")
@@ -207,13 +235,25 @@ def update_warehouse_details():
             cur.execute("update warehouses set name=%s,contact_no=%s,area=%s,City=%s,State=%s,Country=%s,pincode=%s where warehouse_ID=%s;",(name,contact,area,city,state,country,Pincode,warehouse_id))
             db.commit()
             st.success("Record updated successfully!")
-    
-def place_shipment_order():
-    st.subheader("Place Shipment Order")
 
+def custom_query():
+    st.markdown("# Custom Query")
+    query = st.text_input("Enter your custom query:")
+
+    if st.button("Run Query"):
+        if query.strip() == "":
+            st.warning("Please enter a query.")
+        else:
+            cur.execute(query)
+            results = cur.fetchall()
+            if results:
+                st.write("Query executed successfully.")
+                st.table(results)
+            else:
+                st.warning("No results returned.")
 
 def admin_page():
-    selected_option = st.sidebar.radio("Select an Option:", ["View Order Statistics", "View Registered Accounts", "Inventory Details", "Modify Product Catalogue", "Update Warehouse details"])
+    selected_option = st.sidebar.radio("Select an Option:", ["View Order Statistics", "View Registered Accounts", "Inventory Details", "Modify Product Catalogue", "Update Warehouse details","Submit Custom Query","Place Shipment Order"])
     
     if selected_option == "View Registered Accounts":
         view_registered_accounts()
@@ -225,6 +265,10 @@ def admin_page():
         modify_product_catalogue()
     elif selected_option == "Update Warehouse details":
         update_warehouse_details()
+    elif selected_option == "Submit Custom Query":
+        custom_query()
+    elif selected_option == "Place Shipment Order":
+        place_shipment_orders()
     else:
         # If no option is selected, you can display a default message or leave it blank
         pass
