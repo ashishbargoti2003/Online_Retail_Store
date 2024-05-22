@@ -89,6 +89,6 @@ This section allows the admin to write a custom query to query the database in a
 In this section, the admin can place shipment orders to restock the inventory in various warehouses by ordering particular products from particular suppliers. The admin can choose the “Warehouse”, “Supplier” and “Product” for the shipment order by using the options displayed in the drop-down menus. The admin also needs to enter the quantity of the products to be shipped.
 
 ## Instructions to Run
-clone the repository
+clone the repository<br>
 edit Mysql local password inside launch_connection() method inside utility.py <br>
 Run `Streamlit run Home.py` on the terminal.
