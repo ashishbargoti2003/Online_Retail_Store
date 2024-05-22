@@ -90,5 +90,5 @@ In this section, the admin can place shipment orders to restock the inventory in
 
 ## Instructions to Run
 clone the repository
-\
+edit Mysql local password inside launch_connection() method inside utility.py <br>
 Run `Streamlit run Home.py` on the terminal.
