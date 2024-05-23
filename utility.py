@@ -4,9 +4,9 @@ from streamlit import session_state
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 import numpy as np
-from streamlit_lottie import st_lottie 
+# from streamlit_lottie import st_lottie 
 
 def launch_connection():
     db = ms.connect(host='localhost',user='root',passwd='2003',database='croma_online')
